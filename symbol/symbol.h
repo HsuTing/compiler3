@@ -24,14 +24,15 @@ class Table {
 class Symbol {
 	public:
 		Symbol(string file_name);
-		void Origin();
-		void SetFile(string file_name);
 		string GetFile();
-		void SetCount();
 		int GetCount();
-		bool FindKeyWord(string word);
 	private:
 		string key_word[4];
 		string file;
 		int count;
+
+		void Origin();
+		void SetFile(string file_name);
+		void SetCount();
+		bool FindKeyWord(string word);
 };
