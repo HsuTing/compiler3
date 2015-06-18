@@ -1,8 +1,23 @@
 #include <iostream>
+#include <cstdlib>
 #include <cstring>
 #include <fstream>
 #include <sstream>
 using namespace std;
+
+class SymbolTable {
+	public:
+		SymbolTable(string file_name);
+	private:
+		string key_word[4];
+		string file;
+		int scope;
+
+		void Origin();
+		bool FindKeyWord(string word);
+		int Check(string word);
+		int length(string word);
+};
 
 class Table {
 	public:
@@ -19,6 +34,8 @@ class Table {
 		string type;
 		bool array;
 		bool function;
+
+		void Origin();
 };
 
 class Symbol {
