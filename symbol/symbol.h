@@ -4,6 +4,13 @@
 #include <sstream>
 using namespace std;
 
+class SymbolTable {
+	public:
+		SymbolTable(string file_name);
+	private:
+		string file;
+};
+
 class Table {
 	public:
 		Table();

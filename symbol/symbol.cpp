@@ -1,5 +1,18 @@
 #include "symbol.h"
 
+SymbolTable::SymbolTable(string file_name) {
+	file = file_name;
+	ifstream fin(file.c_str());
+	Symbol symbol = Symbol(file);
+	Table table[ symbol.GetCount() ];
+
+	cout << file << endl;
+
+	fin.close();
+}
+
+/*--------------------------------------------------------*/
+
 Table::Table() {
 	scope = 0;
 	symbol = "";
