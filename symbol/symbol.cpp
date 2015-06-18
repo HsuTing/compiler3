@@ -1,12 +1,50 @@
 #include "symbol.h"
 
+Table::Table() {
+	scope = 0;
+	symbol = "";
+	type = "";
+	array = false;
+	function = false;
+}
+
+void Table::Set(int scope_num, string symbol_name, string type_name, bool array, bool function) {
+	scope = scope_num;
+	symbol = symbol_name;
+	type = type_name;
+	array = false;
+	function = false;
+}
+
+int Table::GetScope() {
+	return scope;
+}
+
+string Table::GetSymbol() {
+	return symbol;
+}
+
+string Table::GetType() {
+	return type;
+}
+
+bool Table::GetArray() {
+	return array;
+}
+
+bool Table::GetFunction() {
+	return function;
+}
+
+/*-------------------------------------------------------*/
+
 Symbol::Symbol(string file_name) {
-	origin();
+	Origin();
 	SetFile(file_name);
 	SetCount();
 }
 
-void Symbol::origin() {
+void Symbol::Origin() {
 	file = "";
 	count = 0;
 

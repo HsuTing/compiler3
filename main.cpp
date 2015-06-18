@@ -10,10 +10,12 @@ int main(int argc, char *argv[]) {
 		ifstream ft(argv[1]);
 
 		if(ft != NULL) {
-			Symbol symbol = Symbol(argv[1]);
-			cout << symbol.GetFile() << endl;
-			cout << symbol.GetCount() << endl;
+			ifstream fsymbol(argv[1]);
 
+			Symbol symbol = Symbol(argv[1]);
+			Table table[ symbol.count ];
+
+			fsymbol.close();
 			/*------------------------------------------------------*/
 
 			Check check = Check(argv[1]);
