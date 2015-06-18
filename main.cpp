@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 			ifstream fsymbol(argv[1]);
 
 			Symbol symbol = Symbol(argv[1]);
-			Table table[ symbol.count ];
+			Table table[ symbol.GetCount() ];
 
 			fsymbol.close();
 			/*------------------------------------------------------*/
