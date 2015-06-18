@@ -5,17 +5,15 @@
 #include "check/check.h"
 using namespace std;
 
+void SymbolTable(string file);
+
 int main(int argc, char *argv[]) {
 	if(argc == 2) {
 		ifstream ft(argv[1]);
 
 		if(ft != NULL) {
-			ifstream fsymbol(argv[1]);
+			SymbolTable(argv[1]);
 
-			Symbol symbol = Symbol(argv[1]);
-			Table table[ symbol.GetCount() ];
-
-			fsymbol.close();
 			/*------------------------------------------------------*/
 
 			Check check = Check(argv[1]);
@@ -36,4 +34,13 @@ int main(int argc, char *argv[]) {
 	}
 
 	return 0;
+}
+
+void SymbolTable(string file) {
+	ifstream fp(file.c_str());
+
+	Symbol symbol = Symbol(file);
+	Table table[ symbol.GetCount() ];
+
+	fp.close();
 }
