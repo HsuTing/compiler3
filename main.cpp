@@ -10,12 +10,12 @@ void SymbolTable(string file);
 int main(int argc, char *argv[]) {
 	if(argc == 2) {
 		ifstream ft(argv[1]);
-
+		
+		
 		if(ft != NULL) {
 			SymbolTable(argv[1]);
 
-			/*------------------------------------------------------*/
-
+			*------------------------------------------------------*/
 			Check check = Check(argv[1]);
 			cout << check.GetFile() << endl;
 			cout << check.GetScope() << endl;
