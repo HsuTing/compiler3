@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
 		if(ft != NULL) {
 			Symbol symbol = Symbol(argv[1]);
 			cout << symbol.GetFile() << endl;
-			cout << symbol.GetScope() << endl;
+			cout << symbol.GetCount() << endl;
 
 			/*------------------------------------------------------*/
 

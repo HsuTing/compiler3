@@ -3,12 +3,17 @@
 Symbol::Symbol(string file_name) {
 	origin();
 	SetFile(file_name);
-	SetScope();
+	SetCount();
 }
 
 void Symbol::origin() {
 	file = "";
-	scope = 0;
+	count = 0;
+
+	key_word[0] = "int";
+	key_word[1] = "char";
+	key_word[2] = "float";
+	key_word[3] = "double";
 }
 
 void Symbol::SetFile(string file_name) {
@@ -19,8 +24,8 @@ string Symbol::GetFile() {
 	return file;
 }
 
-void Symbol::SetScope() {
-	scope = 0;
+void Symbol::SetCount() {
+	count = 0;
 	string line;
 	ifstream fin(file.c_str());
 
@@ -28,16 +33,30 @@ void Symbol::SetScope() {
 		cout << "Can not find \"" << file << "\"." << endl;
 	}
 	else {
-		scope = scope + 1;
 		while(getline(fin, line)) {
-			if(line.find("{") != -1)
-				scope = scope + 1;
+			istringstream fin_word(line);
+			string word = "";
+
+			while(fin_word >> word) {
+				if( FindKeyWord(word) ) {
+					count = count + 1;
+				}
+			}
 		}
 	}
 
 	fin.close();
 }
 
-int Symbol::GetScope() {
-	return scope;
+int Symbol::GetCount() {
+	return count;
+}
+
+bool Symbol::FindKeyWord(string word) {
+	for(int i = 0; i < (sizeof(key_word)/sizeof(*key_word)); i++) {
+		if(word == key_word[i]) {
+			return true;
+		}
+	}
+	return false;
 }
