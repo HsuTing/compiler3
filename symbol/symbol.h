@@ -22,14 +22,17 @@ class SymbolTable {
 class Table {
 	public:
 		Table();
-		void Set(int scope_num, string symbol_name, string type_name, bool array, bool function);
+		void Set(int level_num, string symbol_name, string type_name, bool array, bool function);
+		void SetScope(int scope_num);
 		int GetScope();
+		int GetLevel();
 		string GetSymbol();
 		string GetType();
 		bool GetArray();
 		bool GetFunction();
 	private:
 		int scope;
+		int level;
 		string symbol;
 		string type;
 		bool array;
@@ -52,4 +55,6 @@ class Symbol {
 		void SetFile(string file_name);
 		void SetCount();
 		bool FindKeyWord(string word);
+		int Check(string word);
+		int length(string word);
 };
