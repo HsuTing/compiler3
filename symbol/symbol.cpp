@@ -4,11 +4,13 @@ SymbolTable::SymbolTable(string file_name) {
 	file = file_name;
 
 	ifstream fin(file.c_str());
+	ofstream fout("symbol_table.txt");
 	Symbol symbol = Symbol(file);
 	Table table[ symbol.GetCount() ];
 
 	string line;
 	int count = 0;
+	int level_max = 0;
 	/*------temp save for table------*/
 	int level = 0;
 	string symbol_name = "";
@@ -49,6 +51,7 @@ SymbolTable::SymbolTable(string file_name) {
 								function_bool = false;
 							}
 							else if(word == "(") {
+								level = 0;
 								array_bool = false;
 								function_bool = true;
 							}
@@ -70,8 +73,12 @@ SymbolTable::SymbolTable(string file_name) {
 				if(word == "{" || word == "(") {
 					level = level + 1;
 				}
-				else if(word == "}" || word == ")") {
+				else if(word == ")") {
 					level = level - 1;
+				}
+
+				if(level > level_max) {
+					level_max = level;
 				}
 				/*------------------------*/
 
@@ -82,17 +89,56 @@ SymbolTable::SymbolTable(string file_name) {
 		}
 	}
 
+	int level_temp = 0;
+	while(level_temp <= level_max) {
+		for(int i = 0; i < (sizeof(table)/sizeof(*table)); i++) {
+			if(table[i].GetLevel() == level_temp) {
+				if(table[i].GetLevel() == table[i - 1].GetLevel() + 1) {
+					scope = scope + 1;
+				}
+					table[i].SetScope(scope);
+			}
+		}
+
+		level_temp = level_temp + 1;
+	}
+
+	//sort table
 	for(int i = 0; i < (sizeof(table)/sizeof(*table)); i++) {
-		cout << table[i].GetScope() << " ";
-		cout << table[i].GetLevel() << " ";
-		cout << table[i].GetSymbol() << " ";
-		cout << table[i].GetType() << " ";
-		cout << (table[i].GetArray() ? "true" : "false") << " ";
-		cout << (table[i].GetFunction() ? "true" : "false") << " ";
-		cout << endl;
+		for(int j = i + 1; j < (sizeof(table)/sizeof(*table)); j++) {
+			if(table[j].GetScope() < table[i].GetScope()) {
+				Table temp = Table();
+				temp.Set(table[j].GetLevel(), table[j].GetSymbol(), table[j].GetType(), table[j].GetArray(), table[j].GetFunction());
+				temp.SetScope(table[j].GetScope());
+
+				for(int k = j; k >= i + 1; k--) {
+					table[k].Set(table[k - 1].GetLevel(), table[k - 1].GetSymbol(), table[k - 1].GetType(), table[k - 1].GetArray(), table[k - 1].GetFunction());
+					table[k].SetScope(table[k - 1].GetScope());
+				}
+
+				table[i].Set(temp.GetLevel(), temp.GetSymbol(), temp.GetType(), temp.GetArray(), temp.GetFunction());
+				table[i].SetScope(temp.GetScope());
+			}
+		}
+	}
+
+	int temp = 0;
+	for(int i = 0; i < (sizeof(table)/sizeof(*table)); i++) {
+		if(temp != table[i].GetScope()) {
+			temp = table[i].GetScope();
+			fout << endl;
+		}
+
+		fout << table[i].GetScope() << " ";
+		fout << table[i].GetSymbol() << " ";
+		fout << table[i].GetType() << " ";
+		fout << (table[i].GetArray() ? "true" : "false") << " ";
+		fout << (table[i].GetFunction() ? "true" : "false") << " ";
+		fout << endl;
 	}
 
 	fin.close();
+	fout.close();
 }
 
 void SymbolTable::Origin() {
