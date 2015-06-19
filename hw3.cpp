@@ -10,7 +10,9 @@ int main(int argc, char *argv[]) {
 		ifstream ft(argv[1]);
 
 		if(ft != NULL) {
-			SymbolTable symbol = SymbolTable(argv[1]);	
+			//SymbolTable symbol = SymbolTable(argv[1]);	
+			Check a = Check(argv[1]);
+			a.start();
 		}
 		else {
 			cout << "Can not find \"" << argv[1] << "\"." << endl;

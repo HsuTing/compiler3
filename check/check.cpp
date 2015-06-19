@@ -18,24 +18,37 @@ Check::Check(string file_name) {
 	file = file_name;	
 }
 
-int Check::type_check(string a , string b[])
+int Check::type_check(string a , int b)
 {
-   for(int i = 0 ; i < 4 ; i++)
+	 for(int i = 0 ; i < 4 ; i++)
    {
-      if(a == b[i])// && line_save[c+2] != "(")
+      if(a == type[i] && line_save[b+2] != "(")
          return i;
    }
    return 4;
 }
 
-int Check::var_check(string a , string b[])
+int Check::var_check(string a)
 {
-   for(int i = 0 ; i < sizeof(b)/sizeof(*b);i++)
+   for(int i = 0 ; i < sizeof(var_save)/sizeof(*var_save);i++)
    {
-         if(a == b[i])
-            return 1;
+         if(a == var_save[i])
+            return i;
    }
-	return 0;
+	return sizeof(var_save)/sizeof(*var_save);
+}
+
+int Check::keyword_check(string a)
+{
+		string keyword[] = {"return","break","print","if","else","while","break","for"};
+		for(int i = 0 ; i < sizeof(keyword)/sizeof(*keyword) ; i++)
+		{
+			if(a == keyword[i])
+			{
+					return 1;
+			}
+		}
+		return 0;
 }
 
 void Check::start()
@@ -77,31 +90,83 @@ void Check::start()
 			cout << line_save[i] << " ";
 			if(line_save[i][0] != '\0')
 			{
-				int array_pos = type_check(line_save[i],type);
+				int array_pos = type_check(line_save[i] , i);
 				if(array_pos < 4)
 				{
-					type_save[type_num] = type[array_pos];
+					type_save[type_num] = line_save[i];
                type_num = type_num + 1;
                type_found = 1;
+					i = i + 1;
 				}
+				
+				
 					
-				if(type_found == 1 && isalpha(line_save[i][0]) != 0 && type_check(line_save[i],type) == 4 && line_save[i+1] != "(" )
+				if(type_found == 1 && isalpha(line_save[i][0]) != 0 && line_save[i+1] != "(" && keyword_check(line_save[i]) == 0)
 				{
-					for(int j =0;j<sizeof(type)/sizeof(*type);j++)
-					{
-						if(line_save[i] == var_save[j] && type_save[var_num] != type_save[j])
+						if(line_save[i+1] == "[")
 						{
-							var_found = 1;
-						}
+							int len = 0;
+							string input;
+							string array_pos;
+							stringstream change;
+							change << line_save[i+2];
+
+							change >> len;
+							change.clear();
+							int first = 0;
+							for(int j =0 ; j <len ; j++)
+							{
+								change << j;
+								change >> array_pos;
+								change.clear();
+								input = line_save[i] + line_save[i+1] + array_pos + line_save[i+3];
+								if(first == 0)
+								{
+									var_save[var_num] = input;
+									var_num = var_num + 1;
+									first = 1;
+								}
+								else
+								{
+									type_save[type_num] = type_save[type_num-1];
+									type_num = type_num + 1;
+                           var_save[var_num] = input;
+                           var_num = var_num + 1;
+								}		
+							}
 					}
-					if(var_found == 0)
-					{
+					else{	
 						var_save[var_num] = line_save[i];
 						var_num = var_num + 1;
+						i = i + 1;
+					}
+				}
+
+				int save_pos = 0;
+				string word;
+				word = line_save[i];
+				if(line_save[i+1] == "[")
+				{
+					word = line_save[i] + line_save[i+1] + line_save[i+2] + line_save[i+3];
+					i = i + 3;
+				}
+				cout << word << " ";
+				
+				if(var_check(word) < sizeof(var_save)/sizeof(*var_save))
+				{
+					cout << "find " << word << " "  << line_save[i];
+					save_pos = var_check(word);
+					if(line_save[i + 1] == "=")
+					{
+						if(isdigit(line_save[i+2][0]) != 0)
+						{
+							value_save[save_pos] = line_save[i+2];
+						}
 					}
 				}	
 			}
 		}
+
 			cout << endl;
 			order = 0;
 			type_found = 0;
@@ -112,7 +177,8 @@ void Check::start()
 	for(int i = 0 ; i < sizeof(line_save)/sizeof(*line_save) ; i++)
    {
 		cout << "var " << var_save[i] << " ";
-		cout << "type " << type_save[i] << '\n';
+		cout << "type " << type_save[i] << " ";
+		cout << "value" << value_save[i] << "\n";
 	}
 	
 }

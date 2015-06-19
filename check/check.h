@@ -11,8 +11,9 @@ using namespace std;
 class Check {
 	public:
 		Check(string file_name);
-		int type_check(string a , string b[]);// , int c);
-		int var_check(string a , string b[]);
+		int type_check(string a , int b);
+		int var_check(string a);
+		int keyword_check(string a);
 		void start();
 		int Check_s(string word);
 		int length(string word);
