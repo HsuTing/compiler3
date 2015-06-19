@@ -9,14 +9,14 @@ class SymbolTable {
 	public:
 		SymbolTable(string file_name);
 	private:
-		string key_word[4];
-		string file;
+		string key_word[4]; //type
+		string file; //fuke name
 		int scope;
 
 		void Origin();
-		bool FindKeyWord(string word);
-		int Check(string word);
-		int length(string word);
+		bool FindKeyWord(string word); //find if keyword is im line
+		int Check(string word);	// use to cut line to keyword
+		int length(string word); // use to cut line to keyword
 };
 
 class Table {
@@ -31,6 +31,7 @@ class Table {
 		bool GetArray();
 		bool GetFunction();
 	private:
+		// Our information
 		int scope;
 		int level;
 		string symbol;
@@ -49,7 +50,7 @@ class Symbol {
 	private:
 		string key_word[4];
 		string file;
-		int count;
+		int count; // fund how many type in file
 
 		void Origin();
 		void SetFile(string file_name);
