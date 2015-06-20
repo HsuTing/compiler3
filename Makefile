@@ -1,13 +1,10 @@
-hw2: parser_1.o
+all: hw3.o symbol.o check.o llvm.o parser_1.o
+	g++ -o hw3 hw3.o symbol.o check.o llvm.o
 	g++ -o hw2 parser_1.o
 	rm *.o
 
 parser_1.o: parser/parser_1.cpp
 	g++ -c parser/parser_1.cpp
-
-hw3: hw3.o symbol.o check.o llvm.o
-	g++ -o hw3 hw3.o symbol.o check.o llvm.o
-	rm *.o
 
 llvm.o: llvm/llvm.cpp llvm/llvm.h
 	g++ -c llvm/llvm.cpp
