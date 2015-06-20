@@ -1,5 +1,5 @@
 S
-	Program	$
+	Program  $
 Program
 	DeclList
 DeclList
