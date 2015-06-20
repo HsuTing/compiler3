@@ -1,5 +1,9 @@
-hw3: hw3.o symbol.o check.o
-	g++ -o hw3 hw3.o symbol.o check.o
+hw3: hw3.o symbol.o check.o llvm.o
+	g++ -o hw3 hw3.o symbol.o check.o llvm.o
+	rm *.o
+
+llvm.o: llvm/llvm.cpp llvm/llvm.h
+	g++ -c llvm/llvm.cpp
 
 check.o: check/check.cpp check/check.h
 	g++ -c check/check.cpp
@@ -7,8 +11,8 @@ check.o: check/check.cpp check/check.h
 symbol.o: symbol/symbol.cpp symbol/symbol.h
 	g++ -c symbol/symbol.cpp
 
-hw3.o: hw3.cpp symbol/symbol.h check/check.h
+hw3.o: hw3.cpp symbol/symbol.h check/check.h llvm/llvm.h
 	g++ -c hw3.cpp
 
 clean:
-	rm symbol *.o check *.o
+	rm *.o

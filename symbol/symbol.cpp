@@ -4,7 +4,7 @@ SymbolTable::SymbolTable(string file_name) {
 	file = file_name;
 
 	ifstream fin(file.c_str());
-	ofstream fout("symbol_table.txt");
+	ofstream fout("data/symbol_table.txt");
 	Symbol symbol = Symbol(file);
 	Table table[ symbol.GetCount() ];
 
