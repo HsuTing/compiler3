@@ -91,7 +91,7 @@ int main(int argc , char *argv[]){
 	file.open("data/set.txt",ios::out);
 	file_1.open("data/LLtable.txt",ios::out);
 	
-	ifstream grammar(argv[1]);//"grammar.txt");
+	ifstream grammar("data/grammar.txt");//"grammar.txt");
 	//ifstream main_c("main.c");
 
 	if(grammar.is_open())
@@ -262,7 +262,7 @@ int main(int argc , char *argv[]){
 		}*/
 		
 		
-		ifstream fin(argv[2]);
+		ifstream fin(argv[1]);
    	string new_line = "";
    	while(getline(fin, new_line))
    	{
