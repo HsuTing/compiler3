@@ -1,8 +1,9 @@
 double x;
 
-int plus(int a, int b) {
+int plus(int a, double b) {
 	int c;
-	c = a + b;
+	int d;
+	c = a + b + d;
 	return c;
 }
 

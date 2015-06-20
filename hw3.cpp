@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 			Check a = Check(argv[1]);
 
 			a.create_array();
-			a.type_checking();
+			a.type_warning();
 
 			Llvm llvm = Llvm();
 		}
