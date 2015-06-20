@@ -8,4 +8,5 @@ using namespace std;
 class Llvm {
 	public:
 		Llvm();
+	private:
 };
