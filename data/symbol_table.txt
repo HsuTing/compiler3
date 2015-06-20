@@ -1,4 +1,4 @@
-0 x int false false 
+0 x double false false 
 0 plus int false true 
 0 main int false true 
 

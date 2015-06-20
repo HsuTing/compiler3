@@ -9,9 +9,7 @@ Llvm::Llvm() {
 		string word = "";
 
 		while(fin_word >> word) {
-			cout << word << " ";
 		}
-		cout << endl;
 	}
 
 	fin.close();

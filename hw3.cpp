@@ -13,14 +13,11 @@ int main(int argc, char *argv[]) {
 		if(ft != NULL) {
 			SymbolTable symbol = SymbolTable(argv[1]);	
 			Check a = Check(argv[1]);
-<<<<<<< HEAD
+
 			a.create_array();
 			a.type_checking();
-=======
-			a.start();
 
 			Llvm llvm = Llvm();
->>>>>>> 87cc4ada56531315fd77bbbcd1f83e86093a256a
 		}
 		else {
 			cout << "Can not find \"" << argv[1] << "\"." << endl;
