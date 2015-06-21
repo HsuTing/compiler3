@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
-
 using namespace std;
 
 class Check {
@@ -13,9 +12,8 @@ class Check {
 		Check(string file_name);
 		int type_check(string a);
 		int var_check(string a , string b);
-		int keyword_check(string a);
 		void create_array();
-		void type_checking();
+		void type_warning();
 		int Check_s(string word);
 		int length(string word);
 		int check_operator(int a);

@@ -104,7 +104,8 @@ void Llvm::SetCount() {
 	fin.close();
 }
 
-void type(string scope) {
+void Llvm::type(string scope) {
+	cout << "1" << endl;
 }
 
 /*--------------------------------------------------------*/

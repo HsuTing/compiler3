@@ -33,4 +33,5 @@ class Llvm {
 
 		void Origin();
 		void SetCount();
+		void type(string scope);
 };
