@@ -14,8 +14,8 @@ int main(int argc, char *argv[]) {
 			SymbolTable symbol = SymbolTable(argv[1]);	
 			Check a = Check(argv[1]);
 
-			a.create_array();
-			a.type_checking();
+			//a.create_array();
+			//a.type_checking();
 
 			Llvm llvm = Llvm();
 		}
