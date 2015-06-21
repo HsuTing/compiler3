@@ -51,7 +51,7 @@ Llvm::Llvm() {
 		line_count = line_count + 1;
 	}
 
-	int count_type = 0;
+	int choose = -1;
 	//add tree
 	line = "";
 	while(getline(ftree, line)) {
@@ -64,21 +64,19 @@ Llvm::Llvm() {
 
 			if(word_count == 2) {
 				//transform
-				if(word == "type") {
-					type(table[count_type].GetScope());
+				switch(choose) {
+					case 1:
+						Id(word);
+						break;
+				}
+
+				choose = -1;
+				if(word == "id") {
+					choose = 1;
 				}
 				//transform
 			}
 		}
-	}
-
-	for(int i = 0; i < (sizeof(table)/sizeof(*table)); i++) {
-		cout << table[i].GetScope() << " ";
-		cout << table[i].GetSymbol() << " ";
-		cout << table[i].GetType() << " ";
-		cout << table[i].GetArray() << " ";
-		cout << table[i].GetFunction() << " ";
-		cout << endl;
 	}
 
 	ftree.close();
@@ -104,8 +102,8 @@ void Llvm::SetCount() {
 	fin.close();
 }
 
-void Llvm::type(string scope) {
-	cout << "1" << endl;
+void Llvm::Id(string word) {
+	cout << word << endl;
 }
 
 /*--------------------------------------------------------*/
