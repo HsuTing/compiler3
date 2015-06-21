@@ -1,149 +1,194 @@
 #include "llvm.h"
 
+Stack<string>inputStack(150);
+
 Llvm::Llvm() {
-	Origin();
-	SetCount();
 
-	ifstream ftree("data/tree.txt");
-	ifstream ftable("data/symbol_table.txt");
-	llTable table[count];
+		int var_num = 0;
+		string input_array[150];
 
-	//add table
-	string line = "";
-	int line_count = 0;
-	while(getline(ftable, line)) {
-		if(line == "") {
-			continue;
-		}
+      ifstream fin("main.c");
+      string new_line = "";
 
-		istringstream fin_word(line);
-		string word = "";
+      while(getline(fin, new_line))
+      {
+
+	      stringstream fin_word(new_line);
+   	   string word = "";
+      	string remain = "";
+      	int pos = 0;
+
+      	while(fin_word >> word) {
+         	while(word != "") {
+            	if((pos = Check_s(word)) != -1) {
+               	if(pos != 0) {
+                  	remain = word.substr(pos);
+                  	word = word.substr(0, pos);
+               	}
+               	else {
+                  	remain = word.substr(pos + length(word));
+                  	word = word.substr(0, length(word));
+               	}
+            	}
+
+            	input_array[var_num] = word;
+            	var_num = var_num + 1;
+
+            	pos = 0;
+            	word = remain;
+            	remain = "";
+         	}
+      	}
+   	}
+      for(int i = var_num -1 ; i>=0;i--)
+         inputStack.push(input_array[i]);
+}
+
+void Llvm::create_array()
+{
+   ifstream fin("data/symbol_table.txt");
+   string line;   
+
+	while(getline(fin, line))
+   {
+      istringstream fin_word(line);
+      string word = "";
+
 		int word_count = 0;
-		//set information
-		string scope = "";
-		string symbol = "";
-		string type = "";
-		string array = "";
-		string function = "";
+      //set information
+      string scope = "";
+      string symbol = "";
+      string type = "";
+      string array = "";
+      string function = "";
+      
 
-		while(fin_word >> word) {
-			switch(word_count) {
-				case 0:
-					scope = word;
-					break;
-				case 1:
-					symbol = word; 
-					break;
-				case 2:
-					type = word;
-					break;
-				case 3:
-					array = word;
-					break;
-				case 4:
-					function = word;
-					break;
-			}
-			word_count = word_count + 1;
+		while(fin_word >> word)
+      {
+          switch(word_count) {
+            case 0:
+               scope = word;
+               break;
+            case 1:
+               symbol = word;
+               break;
+            case 2:
+               type = word;
+               break;
+            case 3:
+               array = word;
+               break;
+            case 4:
+               function = word;
+               break;
+         }
+         word_count = word_count + 1;
+      }
+		if(word_count != 0)
+		{
+			scope_save[line_count] = scope;
+      	symbol_save[line_count] = symbol;
+			type_save[line_count] = type;
+      	array_save[line_count] = array;
+      	function_save[line_count] = function;
+		
+     		line_count = line_count + 1;
 		}
+   }
+   for(int i = 0 ; i < line_count ; i++)
+   {
+      cout << "scope" << scope_save[i] << " ";
+      cout << "symbol " << symbol_save[i] << " ";
+      cout << "type " << type_save[i] << " ";
+      cout << "array" << array_save[i] << " ";
+      cout << "function" << function_save[i] <<"\n";
+   }
+}
 
-		table[line_count].Set(scope, symbol, type, array, function);
-		line_count = line_count + 1;
+
+void Llvm::S(string input){
+	if(input == "int" || input == "char" || input == " double" || input == "float")
+	{
+		Program(inputStack.top());
 	}
+}
+void Llvm::Program(string input){
+	if(input == "int" || input == "char" || input == " double" || input == "float" || input == "$")
+		DecList(inputStack.top());
+}
+void Llvm::DecList(string input){
+	if(input == "int" || input == "char" || input == " double" || input == "float")
+		DecList_(inputStack.top());
+	//else if(input == "$");
+}
+void Llvm::DecList_(string input){
+	string	type;
+	if(input == "int" || input == "char" || input == " double" || input == "float")
+	{
+		type = Type(input);
+		id(inputStack.top() , type);
+	}
+	//else if(input == "$");
+}
+string Llvm::Type(string input){
+	
+	inputStack.pop("");
 
-	int choose = -1;
-	//add tree
-	line = "";
-	while(getline(ftree, line)) {
-		istringstream fin_word(line);
-		string word = "";
-		int word_count = 0;
-
-		while(fin_word >> word) {
-			word_count = word_count + 1;
-
-			if(word_count == 2) {
-				//transform
-				switch(choose) {
-					case 1:
-						Id(word);
-						break;
-				}
-
-				choose = -1;
-				if(word == "id") {
-					choose = 1;
-				}
-				//transform
-			}
+	if(input == "int")
+		return "int";
+	else if(input == "char")
+		return "char";
+	else if(input == "float")
+		return "float";
+	else if(input == "double")
+		return "double";
+}
+void Llvm::id(string input , string type)
+{
+	int find_pos;
+	string scope;
+	
+	for(int i = 0 ; i <line_count ;i++)
+	{
+		if(input == symbol_save[i] && type == type_save[i])
+		{
+			find_pos = i;
 		}
 	}
-
-	ftree.close();
-	ftable.close();
+	
+	scope = scope_save[find_pos];
+	
+	/*if(scope == 0)
+	{
+		cout << "@" << input << "=" << */
 }
 
-void Llvm::Origin() {
-	count = 0;
+int Llvm::Check_s(string word) {
+   string temp[] = {"{", "}", "[", "]", "(", ")", ";", ",", "=", "!", "+", "-", "*", "/", "==", "!=", "<", ">", "<=", ">=", "&&", "||"};
+   int count = -1;
+
+   for(int i = 0; i < (sizeof(temp) / sizeof(temp[0])); i++) {
+      if(word.find(temp[i]) != -1 && count > word.find(temp[i])) {
+         count = word.find(temp[i]);
+      }
+   }
+   return count;
 }
 
-void Llvm::SetCount() {
-	ifstream fin("data/symbol_table.txt");
+int Llvm::length(string word) {
+   string temp[] = {"==", "!=", "<=", ">=", "&&", "||"};
+   int count = -1;
 
-	string line = "";
-	while(getline(fin, line)) {
-		if(line == "") {
-			continue;
-		}
+   for(int i = 0; i < (sizeof(temp) / sizeof(temp[0])); i++) {
+      if(word.find(temp[i]) != -1 && count > word.find(temp[i])) {
+         count = word.find(temp[i]);
+      }
+   }
 
-		count = count + 1;
-	}
-
-	fin.close();
-}
-
-void Llvm::Id(string word) {
-	cout << word << endl;
-}
-
-/*--------------------------------------------------------*/
-
-llTable::llTable() {
-	Origin();
-}
-
-void llTable::Origin() {
-	scope = "";
-	symbol = "";
-	type = "";
-	array = "";
-	function = "";
-}
-
-void llTable::Set(string scope_num, string symbol_name, string type_name, string array_bool, string function_bool) {
-	scope = scope_num;
-	symbol = symbol_name;
-	type = type_name;
-	array = array_bool;
-	function = function_bool;
-}
-
-string llTable::GetScope() {
-	return scope;
-}
-
-string llTable::GetSymbol() {
-	return symbol;
-}
-
-string llTable::GetType() {
-	return type;
-}
-
-string llTable::GetArray() {
-	return array;
-}
-
-string llTable::GetFunction() {
-	return function;
-}
+   if(count != -1) {
+      return 2;
+   }
+   else {
+      return 1;
+   }
+}	

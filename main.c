@@ -1,4 +1,4 @@
-double x;
+int x = 0;
 
 int plus(int a, double b) {
 	int c;

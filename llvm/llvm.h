@@ -5,33 +5,78 @@
 #include <sstream>
 using namespace std;
 
-class llTable {
-	public:
-		llTable();
-		void Set(string scope_num, string symbol_name, string type_name, string array, string function);
-		string GetScope();
-		string GetSymbol();
-		string GetType();
-		string GetArray();
-		string GetFunction();
-	private:
-		// Our information
-		string scope;
-		string symbol;
-		string type;
-		string array;
-		string function;
-
-		void Origin();
-};
-
 class Llvm {
 	public:
 		Llvm();
-	private:
-		int count;
+		void create_array();		
 
-		void Origin();
-		void SetCount();
-		void Id(string word);
+      void S(string word);
+      void Program(string word);
+      void DecList(string word);
+      void DecList_(string word);
+      string Type(string word);
+      void id(string input , string word);
+      //void Decl();
+      //void Vardecl'();
+		int Check_s(string word);
+		int length(string word);
+
+/*-------------------------------------------------------------*/
+
+
+	private:
+			int line_count;	
+		
+         string scope_save[20];
+         string symbol_save[20];
+         string type_save[20];
+         string array_save[20];
+         string function_save[20];
+	
 };
+
+template<typename T> class Stack
+{
+   public:
+      Stack(int capacity = 50)
+      {
+         cap = capacity;
+         arrayLength = capacity;
+         array = new T[capacity];
+         count = 0;
+         repeat = 0;
+      }
+      ~Stack()
+      {
+         delete[] array;
+      }
+      void push(T value)
+      {
+         if(count == arrayLength)
+         {
+            T* newArray = new T[arrayLength + cap];
+            memcpy(newArray , array , arrayLength *sizeof(T));
+            arrayLength +=cap;
+            delete [] array;
+            array = newArray;
+         }
+         count = count + 1;
+         array[count] = value;
+      }
+      void pop(T value)
+      {
+         array[count] = value;
+         count = count - 1;
+      }
+      T top()
+      {
+         return array[count];
+      }
+   private:
+      int repeat;
+      int arrayLength;
+      int cap;
+      int count;
+      T* array;
+};
+

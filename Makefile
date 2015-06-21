@@ -1,5 +1,5 @@
-all: hw3.o symbol.o check.o llvm.o parser_1.o
-	g++ -o hw3 hw3.o symbol.o check.o llvm.o
+all: hw3.o symbol.o check.o llvm.o parser_1.o 
+	g++ -o hw3 hw3.o symbol.o check.o llvm.o 
 	g++ -o hw2 parser_1.o
 	rm *.o
 
