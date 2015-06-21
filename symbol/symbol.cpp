@@ -45,8 +45,8 @@ SymbolTable::SymbolTable(string file_name) {
 				}
 				else {
 					if(type_name != "") {
-						if(word == ";" || word == "," || word == ")" || word == "(" || word == "[") {
-							if(word == ";" || word == "," || word == ")") {
+						if(word == ";" || word == "," || word == ")" || word == "=" || word == "(" || word == "[") {
+							if(word == ";" || word == "," || word == ")" || word == "=") {
 								array_bool = false;
 								function_bool = false;
 							}
