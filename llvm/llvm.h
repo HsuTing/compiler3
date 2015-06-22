@@ -15,9 +15,16 @@ class Llvm {
       void DecList(string word);
       void DecList_(string word);
       string Type(string word);
-      void id(string input , string word);
-      //void Decl();
-      //void Vardecl'();
+      void DecList__id(string input , string word);
+     	void Decl(string input , string type);
+		void VarDecl(string input);
+		void VarDecl_id(string input , string type);
+      void VarDecl_(string input , string type);
+		void FunDecl(string input);
+		void VarDeclList(string input);
+		void ParamDeclList(string input);
+		void Block(string input);
+
 		int Check_s(string word);
 		int length(string word);
 
@@ -25,6 +32,8 @@ class Llvm {
 
 
 	private:
+			int first; //測試用
+
 			int line_count;	
 		
          string scope_save[20];
@@ -65,8 +74,10 @@ template<typename T> class Stack
       }
       void pop(T value)
       {
-         array[count] = value;
-         count = count - 1;
+			if(count != 0){
+         	array[count] = value;
+         	count = count - 1;
+			}
       }
       T top()
       {

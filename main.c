@@ -1,4 +1,4 @@
-int x = 0;
+int x;
 
 int plus(int a, double b) {
 	int c;
@@ -21,5 +21,5 @@ int main() {
 		b = x;
 	}
 
-	print x;
+	//print x;
 }

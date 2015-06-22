@@ -3,7 +3,7 @@
     3 DeclList
       4 DeclList'
         5 Type
-          6 double
+          6 int
         5 id
           6 x
         5 Decl
@@ -14,31 +14,12 @@
           6 Type
             7 int
           6 id
-            7 plus
+            7 main
           6 Decl
             7 FunDecl
               8 (
               8 ParamDeclList
-                9 ParamDeclListTail
-                  10 ParamDecl
-                    11 Type
-                      12 int
-                    11 id
-                      12 a
-                    11 ParamDecl'
-                      12 epsilon
-                  10 ParamDeclListTail'
-                    11 ,
-                    11 ParamDeclListTail
-                      12 ParamDecl
-                        13 Type
-                          14 double
-                        13 id
-                          14 b
-                        13 ParamDecl'
-                          14 epsilon
-                      12 ParamDeclListTail'
-                        13 epsilon
+                9 epsilon
               8 )
               8 Block
                 9 {
@@ -47,7 +28,7 @@
                     11 Type
                       12 int
                     11 id
-                      12 c
+                      12 a
                     11 VarDecl'
                       12 ;
                   10 VarDeclList
@@ -55,59 +36,475 @@
                       12 Type
                         13 int
                       12 id
-                        13 d
+                        13 b
                       12 VarDecl'
                         13 ;
                     11 VarDeclList
-                      12 epsilon
+                      12 VarDecl
+                        13 Type
+                          14 double
+                        13 id
+                          14 c
+                        13 VarDecl'
+                          14 ;
+                      12 VarDeclList
+                        13 VarDecl
+                          14 Type
+                            15 double
+                          14 id
+                            15 d
+                          14 VarDecl'
+                            15 ;
+                        13 VarDeclList
+                          14 VarDecl
+                            15 Type
+                              16 int
+                            15 id
+                              16 e
+                            15 VarDecl'
+                              16 [
+                              16 num
+                                17 20
+                              16 ]
+                              16 ;
+                          14 VarDeclList
+                            15 VarDecl
+                              16 Type
+                                17 int
+                              16 id
+                                17 f
+                              16 VarDecl'
+                                17 [
+                                17 num
+                                  18 15
+                                17 ]
+                                17 ;
+                            15 VarDeclList
+                              16 VarDecl
+                                17 Type
+                                  18 int
+                                17 id
+                                  18 g
+                                17 VarDecl'
+                                  18 ;
+                              16 VarDeclList
+                                17 epsilon
                 9 StmtList
                   10 Stmt
                     11 Expr
                       12 id
-                        13 c
+                        13 a
                       12 ExprIdTail
                         13 =
                         13 Expr
-                          14 id
-                            15 a
-                          14 ExprIdTail
-                            15 Expr'
-                              16 BinOp
-                                17 +
-                              16 Expr
-                                17 id
-                                  18 b
-                                17 ExprIdTail
-                                  18 Expr'
-                                    19 BinOp
-                                      20 +
-                                    19 Expr
-                                      20 id
-                                        21 d
-                                      20 ExprIdTail
-                                        21 Expr'
-                                          22 epsilon
+                          14 num
+                            15 1
+                          14 Expr'
+                            15 epsilon
                     11 ;
                   10 StmtList'
                     11 StmtList
                       12 Stmt
-                        13 return
                         13 Expr
                           14 id
-                            15 c
+                            15 b
                           14 ExprIdTail
-                            15 Expr'
-                              16 epsilon
+                            15 =
+                            15 Expr
+                              16 num
+                                17 2.2
+                              16 Expr'
+                                17 epsilon
                         13 ;
                       12 StmtList'
-                        13 epsilon
+                        13 StmtList
+                          14 Stmt
+                            15 Expr
+                              16 id
+                                17 c
+                              16 ExprIdTail
+                                17 =
+                                17 Expr
+                                  18 num
+                                    19 3.3
+                                  18 Expr'
+                                    19 epsilon
+                            15 ;
+                          14 StmtList'
+                            15 StmtList
+                              16 Stmt
+                                17 Expr
+                                  18 id
+                                    19 d
+                                  18 ExprIdTail
+                                    19 =
+                                    19 Expr
+                                      20 num
+                                        21 4
+                                      20 Expr'
+                                        21 epsilon
+                                17 ;
+                              16 StmtList'
+                                17 StmtList
+                                  18 Stmt
+                                    19 Expr
+                                      20 id
+                                        21 g
+                                      20 ExprIdTail
+                                        21 =
+                                        21 Expr
+                                          22 id
+                                            23 a
+                                          22 ExprIdTail
+                                            23 Expr'
+                                              24 BinOp
+                                                25 +
+                                              24 Expr
+                                                25 id
+                                                  26 c
+                                                25 ExprIdTail
+                                                  26 Expr'
+                                                    27 epsilon
+                                    19 ;
+                                  18 StmtList'
+                                    19 StmtList
+                                      20 Stmt
+                                        21 if
+                                        21 (
+                                        21 Expr
+                                          22 id
+                                            23 b
+                                          22 ExprIdTail
+                                            23 Expr'
+                                              24 BinOp
+                                                25 >
+                                              24 Expr
+                                                25 id
+                                                  26 a
+                                                25 ExprIdTail
+                                                  26 Expr'
+                                                    27 epsilon
+                                        21 )
+                                        21 Stmt
+                                          22 Block
+                                            23 {
+                                            23 VarDeclList
+                                              24 epsilon
+                                            23 StmtList
+                                              24 Stmt
+                                                25 Expr
+                                                  26 id
+                                                    27 a
+                                                  26 ExprIdTail
+                                                    27 =
+                                                    27 Expr
+                                                      28 num
+                                                        29 5
+                                                      28 Expr'
+                                                        29 BinOp
+                                                          30 +
+                                                        29 Expr
+                                                          30 id
+                                                            31 a
+                                                          30 ExprIdTail
+                                                            31 Expr'
+                                                              32 epsilon
+                                                25 ;
+                                              24 StmtList'
+                                                25 StmtList
+                                                  26 Stmt
+                                                    27 print
+                                                    27 id
+                                                      28 a
+                                                    27 ;
+                                                  26 StmtList'
+                                                    27 epsilon
+                                            23 }
+                                        21 else
+                                        21 Stmt
+                                          22 Block
+                                            23 {
+                                            23 VarDeclList
+                                              24 epsilon
+                                            23 StmtList
+                                              24 Stmt
+                                                25 Expr
+                                                  26 id
+                                                    27 b
+                                                  26 ExprIdTail
+                                                    27 =
+                                                    27 Expr
+                                                      28 id
+                                                        29 b
+                                                      28 ExprIdTail
+                                                        29 Expr'
+                                                          30 BinOp
+                                                            31 +
+                                                          30 Expr
+                                                            31 num
+                                                              32 6
+                                                            31 Expr'
+                                                              32 epsilon
+                                                25 ;
+                                              24 StmtList'
+                                                25 StmtList
+                                                  26 Stmt
+                                                    27 print
+                                                    27 id
+                                                      28 b
+                                                    27 ;
+                                                  26 StmtList'
+                                                    27 epsilon
+                                            23 }
+                                      20 StmtList'
+                                        21 StmtList
+                                          22 Stmt
+                                            23 while
+                                            23 (
+                                            23 Expr
+                                              24 id
+                                                25 c
+                                              24 ExprIdTail
+                                                25 Expr'
+                                                  26 BinOp
+                                                    27 <
+                                                  26 Expr
+                                                    27 num
+                                                      28 10
+                                                    27 Expr'
+                                                      28 epsilon
+                                            23 )
+                                            23 Stmt
+                                              24 Block
+                                                25 {
+                                                25 VarDeclList
+                                                  26 epsilon
+                                                25 StmtList
+                                                  26 Stmt
+                                                    27 Expr
+                                                      28 id
+                                                        29 a
+                                                      28 ExprIdTail
+                                                        29 =
+                                                        29 Expr
+                                                          30 id
+                                                            31 a
+                                                          30 ExprIdTail
+                                                            31 Expr'
+                                                              32 BinOp
+                                                                33 +
+                                                              32 Expr
+                                                                33 num
+                                                                  34 1
+                                                                33 Expr'
+                                                                  34 epsilon
+                                                    27 ;
+                                                  26 StmtList'
+                                                    27 StmtList
+                                                      28 Stmt
+                                                        29 Expr
+                                                          30 id
+                                                            31 c
+                                                          30 ExprIdTail
+                                                            31 =
+                                                            31 Expr
+                                                              32 id
+                                                                33 c
+                                                              32 ExprIdTail
+                                                                33 Expr'
+                                                                  34 BinOp
+                                                                    35 +
+                                                                  34 Expr
+                                                                    35 num
+                                                                      36 1
+                                                                    35 Expr'
+                                                                      36 epsilon
+                                                        29 ;
+                                                      28 StmtList'
+                                                        29 epsilon
+                                                25 }
+                                          22 StmtList'
+                                            23 StmtList
+                                              24 Stmt
+                                                25 print
+                                                25 id
+                                                  26 a
+                                                25 ;
+                                              24 StmtList'
+                                                25 StmtList
+                                                  26 Stmt
+                                                    27 Expr
+                                                      28 id
+                                                        29 e
+                                                      28 ExprIdTail
+                                                        29 [
+                                                        29 Expr
+                                                          30 num
+                                                            31 0
+                                                          30 Expr'
+                                                            31 epsilon
+                                                        29 ]
+                                                        29 ExprArrayTail
+                                                          30 =
+                                                          30 Expr
+                                                            31 num
+                                                              32 1
+                                                            31 Expr'
+                                                              32 epsilon
+                                                    27 ;
+                                                  26 StmtList'
+                                                    27 StmtList
+                                                      28 Stmt
+                                                        29 Expr
+                                                          30 id
+                                                            31 f
+                                                          30 ExprIdTail
+                                                            31 [
+                                                            31 Expr
+                                                              32 num
+                                                                33 2
+                                                              32 Expr'
+                                                                33 epsilon
+                                                            31 ]
+                                                            31 ExprArrayTail
+                                                              32 =
+                                                              32 Expr
+                                                                33 num
+                                                                  34 3
+                                                                33 Expr'
+                                                                  34 epsilon
+                                                        29 ;
+                                                      28 StmtList'
+                                                        29 StmtList
+                                                          30 Stmt
+                                                            31 Expr
+                                                              32 id
+                                                                33 f
+                                                              32 ExprIdTail
+                                                                33 [
+                                                                33 Expr
+                                                                  34 num
+                                                                    35 4
+                                                                  34 Expr'
+                                                                    35 epsilon
+                                                                33 ]
+                                                                33 ExprArrayTail
+                                                                  34 =
+                                                                  34 Expr
+                                                                    35 num
+                                                                      36 5
+                                                                    35 Expr'
+                                                                      36 epsilon
+                                                            31 ;
+                                                          30 StmtList'
+                                                            31 StmtList
+                                                              32 Stmt
+                                                                33 Expr
+                                                                  34 id
+                                                                    35 f
+                                                                  34 ExprIdTail
+                                                                    35 [
+                                                                    35 Expr
+                                                                      36 num
+                                                                        37 4
+                                                                      36 Expr'
+                                                                        37 epsilon
+                                                                    35 ]
+                                                                    35 ExprArrayTail
+                                                                      36 =
+                                                                      36 Expr
+                                                                        37 id
+                                                                          38 e
+                                                                        37 ExprIdTail
+                                                                          38 [
+                                                                          38 Expr
+                                                                            39 num
+                                                                              40 0
+                                                                            39 Expr'
+                                                                              40 epsilon
+                                                                          38 ]
+                                                                          38 ExprArrayTail
+                                                                            39 Expr'
+                                                                              40 BinOp
+                                                                                41 +
+                                                                              40 Expr
+                                                                                41 id
+                                                                                  42 f
+                                                                                41 ExprIdTail
+                                                                                  42 [
+                                                                                  42 Expr
+                                                                                    43 num
+                                                                                      44 2
+                                                                                    43 Expr'
+                                                                                      44 epsilon
+                                                                                  42 ]
+                                                                                  42 ExprArrayTail
+                                                                                    43 Expr'
+                                                                                      44 epsilon
+                                                                33 ;
+                                                              32 StmtList'
+                                                                33 StmtList
+                                                                  34 Stmt
+                                                                    35 Expr
+                                                                      36 id
+                                                                        37 x
+                                                                      36 ExprIdTail
+                                                                        37 =
+                                                                        37 Expr
+                                                                          38 id
+                                                                            39 f
+                                                                          38 ExprIdTail
+                                                                            39 [
+                                                                            39 Expr
+                                                                              40 num
+                                                                                41 4
+                                                                              40 Expr'
+                                                                                41 epsilon
+                                                                            39 ]
+                                                                            39 ExprArrayTail
+                                                                              40 Expr'
+                                                                                41 epsilon
+                                                                    35 ;
+                                                                  34 StmtList'
+                                                                    35 StmtList
+                                                                      36 Stmt
+                                                                        37 print
+                                                                        37 id
+                                                                          38 x
+                                                                        37 ;
+                                                                      36 StmtList'
+                                                                        37 StmtList
+                                                                          38 Stmt
+                                                                            39 Expr
+                                                                              40 id
+                                                                                41 func
+                                                                              40 ExprIdTail
+                                                                                41 (
+                                                                                41 ExprList
+                                                                                  42 epsilon
+                                                                                41 )
+                                                                                41 Expr'
+                                                                                  42 epsilon
+                                                                            39 ;
+                                                                          38 StmtList'
+                                                                            39 StmtList
+                                                                              40 Stmt
+                                                                                41 return
+                                                                                41 Expr
+                                                                                  42 num
+                                                                                    43 0
+                                                                                  42 Expr'
+                                                                                    43 epsilon
+                                                                                41 ;
+                                                                              40 StmtList'
+                                                                                41 epsilon
                 9 }
         5 DeclList
           6 DeclList'
             7 Type
               8 int
             7 id
-              8 main
+              8 func
             7 Decl
               8 FunDecl
                 9 (
@@ -121,12 +518,8 @@
                       12 Type
                         13 int
                       12 id
-                        13 y
+                        13 test
                       12 VarDecl'
-                        13 [
-                        13 num
-                          14 2
-                        13 ]
                         13 ;
                     11 VarDeclList
                       12 epsilon
@@ -134,178 +527,34 @@
                     11 Stmt
                       12 Expr
                         13 id
-                          14 y
+                          14 test
                         13 ExprIdTail
-                          14 [
+                          14 =
                           14 Expr
                             15 num
-                              16 0
+                              16 12345
                             15 Expr'
                               16 epsilon
-                          14 ]
-                          14 ExprArrayTail
-                            15 =
-                            15 Expr
-                              16 num
-                                17 3.0
-                              16 Expr'
-                                17 epsilon
                       12 ;
                     11 StmtList'
                       12 StmtList
                         13 Stmt
-                          14 Expr
-                            15 id
-                              16 y
-                            15 ExprIdTail
-                              16 [
-                              16 Expr
-                                17 num
-                                  18 1
-                                17 Expr'
-                                  18 epsilon
-                              16 ]
-                              16 ExprArrayTail
-                                17 =
-                                17 Expr
-                                  18 num
-                                    19 4.0
-                                  18 Expr'
-                                    19 epsilon
+                          14 print
+                          14 id
+                            15 test
                           14 ;
                         13 StmtList'
                           14 StmtList
                             15 Stmt
+                              16 return
                               16 Expr
-                                17 id
-                                  18 x
-                                17 ExprIdTail
-                                  18 =
-                                  18 Expr
-                                    19 id
-                                      20 plus
-                                    19 ExprIdTail
-                                      20 (
-                                      20 ExprList
-                                        21 ExprListTail
-                                          22 Expr
-                                            23 id
-                                              24 y
-                                            23 ExprIdTail
-                                              24 [
-                                              24 Expr
-                                                25 num
-                                                  26 0
-                                                25 Expr'
-                                                  26 epsilon
-                                              24 ]
-                                              24 ExprArrayTail
-                                                25 Expr'
-                                                  26 epsilon
-                                          22 ExprListTail'
-                                            23 ,
-                                            23 ExprListTail
-                                              24 Expr
-                                                25 id
-                                                  26 y
-                                                25 ExprIdTail
-                                                  26 [
-                                                  26 Expr
-                                                    27 num
-                                                      28 1
-                                                    27 Expr'
-                                                      28 epsilon
-                                                  26 ]
-                                                  26 ExprArrayTail
-                                                    27 Expr'
-                                                      28 epsilon
-                                              24 ExprListTail'
-                                                25 epsilon
-                                      20 )
-                                      20 Expr'
-                                        21 epsilon
+                                17 num
+                                  18 0
+                                17 Expr'
+                                  18 epsilon
                               16 ;
                             15 StmtList'
-                              16 StmtList
-                                17 Stmt
-                                  18 if
-                                  18 (
-                                  18 Expr
-                                    19 id
-                                      20 x
-                                    19 ExprIdTail
-                                      20 Expr'
-                                        21 epsilon
-                                  18 )
-                                  18 Stmt
-                                    19 Block
-                                      20 {
-                                      20 VarDeclList
-                                        21 VarDecl
-                                          22 Type
-                                            23 double
-                                          22 id
-                                            23 a
-                                          22 VarDecl'
-                                            23 ;
-                                        21 VarDeclList
-                                          22 epsilon
-                                      20 StmtList
-                                        21 Stmt
-                                          22 Expr
-                                            23 id
-                                              24 a
-                                            23 ExprIdTail
-                                              24 =
-                                              24 Expr
-                                                25 num
-                                                  26 2
-                                                25 Expr'
-                                                  26 epsilon
-                                          22 ;
-                                        21 StmtList'
-                                          22 epsilon
-                                      20 }
-                                  18 else
-                                  18 Stmt
-                                    19 Block
-                                      20 {
-                                      20 VarDeclList
-                                        21 VarDecl
-                                          22 Type
-                                            23 float
-                                          22 id
-                                            23 b
-                                          22 VarDecl'
-                                            23 ;
-                                        21 VarDeclList
-                                          22 epsilon
-                                      20 StmtList
-                                        21 Stmt
-                                          22 Expr
-                                            23 id
-                                              24 b
-                                            23 ExprIdTail
-                                              24 =
-                                              24 Expr
-                                                25 id
-                                                  26 x
-                                                25 ExprIdTail
-                                                  26 Expr'
-                                                    27 epsilon
-                                          22 ;
-                                        21 StmtList'
-                                          22 epsilon
-                                      20 }
-                                17 StmtList'
-                                  18 StmtList
-                                    19 Stmt
-                                      20 print
-                                      20 id
-                                        21 x
-                                      20 ;
-                                    19 StmtList'
-                                      20 epsilon
+                              16 epsilon
                   10 }
           6 DeclList
             7 epsilon

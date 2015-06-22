@@ -18,7 +18,6 @@ int main(int argc, char *argv[]) {
 			a.type_warning();
 
 			Llvm llvm = Llvm();
-			llvm.create_array();
 		}
 		else {
 			cout << "Can not find \"" << argv[1] << "\"." << endl;

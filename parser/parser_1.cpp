@@ -71,15 +71,15 @@ template<typename T>	class Stack
 		T* array;
 };
 
-Stack<string> stateStack(20);//記住變數
-Stack<int> posStack(20);//記住位置
-Stack<string> inputStack(150);//記住輸入
+Stack<string> stateStack(30);//記住變數
+Stack<int> posStack(30);//記住位置
+Stack<string> inputStack(200);//記住輸入
 
 int main(int argc , char *argv[]){
 
 	string line;
 	string line_add;
-	string input_array[150];
+	string input_array[200];
 
 	int i = -1;
 	int n;
