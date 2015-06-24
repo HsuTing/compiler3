@@ -3,6 +3,7 @@
 #include <cstring>
 #include <fstream>
 #include <sstream>
+#include <string>
 using namespace std;
 
 class Llvm {
@@ -23,25 +24,63 @@ class Llvm {
 		void FunDecl(string input);
 		void VarDeclList(string input);
 		void ParamDeclList(string input);
+		void ParamDeclListTail(string input);
+		void ParamDeclListTail_(string input);
+		void ParamDecl(string input);
+		void ParamDecl_id(string input , string type);
+		void ParamDecl_(string input);
 		void Block(string input);
+		void StmtList(string input);
+		void StmtList_(string input);
+		void Stmt(string input);
+		void Expr(string input);
+		void ExprIdTail(string input , string id);
+		void ExprArrayTail(string input);
+		void Expr_(string input);
+		void ExprList(string input);
+		void ExprListTail(string input);
+		void ExprListTail_(string input);
+		void UnaryOp(string input);
+		void BinOp(string input);
 
 		int Check_s(string word);
 		int length(string word);
 
+		string type_change(string a);
+		void type_checking(string first_type , string type);
 /*-------------------------------------------------------------*/
 
 
 	private:
 			int first; //測試用
 
-			int line_count;	
-		
+			//處理symbol_table
+			int line_count;	//總參數
          string scope_save[20];
          string symbol_save[20];
          string type_save[20];
          string array_save[20];
          string function_save[20];
 	
+			//處理function的參數
+			string param_type[5];
+			string param_symbol[5];
+			string param_array[5];
+			int param_num;
+
+			//處理stmt的參數
+			string stmt_type[5];
+			string stmt_symbol[5];
+			string stmt_array[5];
+			string binop[5];
+			int stmt_num;
+			int bin_num;
+
+			//function %n
+			int total_num;
+
+			int scope;
+			string empty[5];
 };
 
 template<typename T> class Stack
