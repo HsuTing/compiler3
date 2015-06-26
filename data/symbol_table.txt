@@ -1,5 +1,9 @@
 0 x int false false 
+<<<<<<< HEAD
 0 func int false true 
+=======
+0 plus int false true 
+>>>>>>> 219efb491d6811d0a21ed94efe5ff42c1ca40866
 0 main int false true 
 
 1 test int false false 

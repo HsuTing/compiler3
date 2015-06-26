@@ -34,7 +34,7 @@
 > main.cpp
 
 ```
-	Contorl total class(symbol, check).
+	Contorl total class(symbol, check, llvm).
 ```
 
 > symbol.cpp
@@ -75,3 +75,4 @@
 		
 		Build stack to save input.
 ```
+
