@@ -1,10 +1,14 @@
 0 x int false false 
+0 func int false true 
 0 main int false true 
 
-1 a int false false 
-1 b int false false 
-1 c double false false 
-1 d double false false 
-1 e int true false 
-1 f int true false 
-1 g int false false 
+1 test int false false 
+
+2 a int false false 
+2 b int false false 
+2 c double false false 
+2 d double false false 
+2 e int true false 
+2 f int true false 
+2 g int false false 
+2 h double true false 

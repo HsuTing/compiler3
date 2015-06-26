@@ -56,6 +56,22 @@
 ```
 
 > check.cpp
-
 ```
+	class Check:
+		
+		Store scope, level, symbol, type, array, function about file.
+		Type checking.
+```
+
+>llvm.cpp
+```
+	class Llvm:
+		
+		Saving all Non-Terminal functions(30).
+		Finished function : type operate , print , func , array operate.
+		Unfinished function : while , if , piority operator.
+
+	class Stack:
+		
+		Build stack to save input.
 ```

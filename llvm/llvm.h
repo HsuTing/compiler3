@@ -47,7 +47,7 @@ class Llvm {
 		int length(string word);
 
 		string type_change(string a);
-		void type_checking(string first_type , string type);
+		void type_checking(string first_type , string type , int assign);
 /*-------------------------------------------------------------*/
 
 
@@ -62,25 +62,36 @@ class Llvm {
          string array_save[20];
          string function_save[20];
 	
+			//處理array的參數
+			string array_symbol[10];
+			string array_len[10];
+			int array_num;
+
 			//處理function的參數
-			string param_type[5];
-			string param_symbol[5];
-			string param_array[5];
+			string param_type[10];
+			string param_symbol[10];
+			string param_array[10];
 			int param_num;
 
 			//處理stmt的參數
-			string stmt_type[5];
-			string stmt_symbol[5];
-			string stmt_array[5];
-			string binop[5];
+			string stmt_scope[10];
+			string stmt_type[10];
+			string stmt_symbol[10];
+			string stmt_array[10];
+			string stmt_function[10];
+			string binop[10];
 			int stmt_num;
 			int bin_num;
+
+			//temp
+			string temp_type;
+			string temp_symbol;
 
 			//function %n
 			int total_num;
 
 			int scope;
-			string empty[5];
+			string empty[10];
 };
 
 template<typename T> class Stack

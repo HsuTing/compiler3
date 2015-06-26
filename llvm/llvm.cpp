@@ -1,10 +1,12 @@
 #include "llvm.h"
 
 Stack<string>inputStack(150);
+fstream file;
 
 Llvm::Llvm() {
 
 		//first = 0;//測試用 之後砍
+		array_num = 0;
 		total_num = 1;
 		scope = 0;
 		create_array();
@@ -12,8 +14,10 @@ Llvm::Llvm() {
 		int var_num = 0;
 		string input_array[150];
 
-      ifstream fin("main_2.c");
+      ifstream fin("main.c");
       string new_line = "";
+
+		file.open("main.ll",ios::out);
 
       while(getline(fin, new_line))
       {
@@ -48,17 +52,26 @@ Llvm::Llvm() {
       for(int i = var_num -1 ; i>=0;i--)
          inputStack.push(input_array[i]);
 
+		file << "@.str = private constant [3 x i8] c\"\%d\\00\"" << endl;
+		file << "@.str1 = private constant [3 x i8] c\"\%f\\00\""<< endl;
+
 		S(inputStack.top());
 
-		for(int i = 0 ; i < 5;i++)
+
+		file << "declare i32 @printf(i8*, ...)" <<endl;
+/*		for(int i = 0 ; i < 5;i++)
 		{
       cout << "symbol " << stmt_symbol[i] << " ";
       cout << "type " << stmt_type[i] << " ";
       cout << "array" << stmt_array[i] << " ";
 		cout << "bin " << binop[i] << " " ;
 		cout << endl;
-		}
-	
+		}*/
+/*  		for(int i = 0 ; i < array_num ; i++)
+   	{
+			cout << array_symbol[i];
+			cout << array_len[i];
+		}*/
 }
 
 void Llvm::create_array()
@@ -112,14 +125,15 @@ void Llvm::create_array()
      		line_count = line_count + 1;
 		}
    }
-   for(int i = 0 ; i < line_count ; i++)
+
+/*   for(int i = 0 ; i < line_count ; i++)
    {
       cout << "scope" << scope_save[i] << " ";
       cout << "symbol " << symbol_save[i] << " ";
       cout << "type " << type_save[i] << " ";
       cout << "array" << array_save[i] << " ";
       cout << "function" << function_save[i] <<"\n";
-   }
+   }*/
 }
 
 
@@ -196,32 +210,32 @@ void Llvm::DecList__id(string input , string type)
 	if(inputStack.top() == ";")//一般宣告
 	{
 		if(scope == "0")
-			cout << "@" << input << "= " << "Common global " ;
+			file << "@" << input << "= " << "global " ;
 		else
-			cout << "%" << input << "= " << "alloca " ;
+			file << "%" << input << "= " << "alloca " ;
 	
 	   if(type == "int")
-		   cout << "i32 0" << endl;
+		   file << "i32 0" << endl;
    	else if(type == "char")
-      	cout << "i8 " << endl;
+      	file << "i8 " << endl;
    	else if(type == "float")
-      	cout << "float " << endl;
+      	file << "float " << endl;
    	else if(type == "double")
-      	cout << "double " << endl;
+      	file << "double " << endl;
 	}
 	else if(inputStack.top() == "(")//function
 	{
-		cout << "define ";
+		file << "define ";
 
       if(type == "int")
-         cout << "i32 ";
+         file << "i32 ";
       else if(type == "char")
-         cout << "i8 ";
+         file << "i8 ";
       else if(type == "float")
-         cout << "float ";
+         file << "float ";
       else if(type == "double")
-         cout << "double ";
-		cout << "@" << input ;
+         file << "double ";
+		file << "@" << input ;
 	}
 	else if(inputStack.top() == "["){;}
 	else{;}
@@ -265,18 +279,22 @@ void Llvm::VarDecl_id(string input , string type)
          find_pos = i;
       }
    }
+	
+	//存放矩陣長度
+	if(array_save[find_pos] == "true")
+		array_symbol[array_num] = input;
 
-   cout << "%" << input << "= " << "alloca " ;
+   file << "%" << input << "= " << "alloca " ;
 
 	if(inputStack.top() == ";"){
    	if(type == "int")
-      	cout << "i32 " << endl;
+      	file << "i32 " << endl;
    	else if(type == "char")
-      	cout << "i8 " << endl;
+      	file << "i8 " << endl;
   		else if(type == "float")
-      	cout << "float " << endl;
+      	file << "float " << endl;
    	else if(type == "double")
-      	cout << "double " << endl;
+      	file << "double " << endl;
 	}
 }
 
@@ -288,21 +306,25 @@ void Llvm::VarDecl_(string input , string type)
 		inputStack.pop("");
 	else if(input == "["){
 		//[
-		cout << "[";
+		file << "[";
 		inputStack.pop("");
 		//num
 		num = inputStack.top();
       if(type == "int")
-         cout << num << " x i32";
+         file << num << " x i32";
       else if(type == "char")
-         cout << num << " x i8";
+         file << num << " x i8";
       else if(type == "float")
-         cout << num << " x float";
+         file << num << " x float";
       else if(type == "double")
-         cout << num << " x double";
+         file << num << " x double";
+
+		array_len[array_num] = num;
+		array_num = array_num + 1;
+
 		inputStack.pop("");
 		//]
-		cout << "]" << endl;
+		file << "]" << endl;
 		inputStack.pop("");
 		//;
 		inputStack.pop("");
@@ -319,12 +341,12 @@ void Llvm::FunDecl(string input)
          memcpy(param_symbol,empty,sizeof(empty));
          memcpy(param_array,empty,sizeof(empty));		
 		//(
-		cout << input ;
+		file << input ;
 		inputStack.pop("");
 		//Parameter
 		ParamDeclList(inputStack.top());
 		//)
-		cout << ")";
+		file << ")";
 		inputStack.pop("");
 		//Block
 		Block(inputStack.top());
@@ -359,7 +381,7 @@ void Llvm::ParamDeclListTail(string input)
 void Llvm::ParamDeclListTail_(string input)
 {
 	if(input == ","){
-		cout << " , " ;
+		file << " , " ;
 		inputStack.pop("");
 		ParamDeclListTail(inputStack.top());
 	}
@@ -401,17 +423,17 @@ void Llvm::ParamDecl_id(string input , string type)
 	string array = array_save[find_pos];
 
    if(type == "int")
-      cout << "i32";
+      file << "i32";
    else if(type == "char")
-      cout << "i8";
+      file << "i8";
    else if(type == "float")
-      cout << "float";
+      file << "float";
    else if(type == "double")
-      cout << "double";
+      file << "double";
    
 	if(array == "true")
-		cout << "*";
-	cout << " %" << input;
+		file << "*";
+	file << " %" << input;
 
 	param_type[param_num] = type;
 	param_symbol[param_num] = input;
@@ -424,9 +446,9 @@ void Llvm::ParamDecl_(string input)
 {
 	if(input == "[")
 	{
-		cout << "[ ";
+		file << "[ ";
 		inputStack.pop("");
-		cout << "]";
+		file << "]";
 		inputStack.pop("");
 	}
 	else{;}
@@ -437,18 +459,18 @@ void Llvm::Block(string input)
 	if(input == "{")
 	{
 		//{
-		cout << "{" << endl;
+		file << "{" << endl;
 		inputStack.pop("");
 		scope = scope + 1;
 		// param_assign
 		for(int i = 0 ; i <= param_num-1 || i == 0 ; i++)
 		{
-			stringstream change;
-			string num;
-			change << total_num;
-			change >> num;
+			//stringstream change;
+			//string num;
+			//change << total_num;
+			//change >> num;
 
-			cout << "%" << num << " = alloca ";
+			file << "%" << total_num << " = alloca ";
 			
 			string type = param_type[i];
 
@@ -456,17 +478,17 @@ void Llvm::Block(string input)
 				type = "int";
 
 		   if(type == "int")
-		      cout << "i32";
+		      file << "i32";
    		else if(type == "char")
-      		cout << "i8";
+      		file << "i8";
    		else if(type == "float")
-      		cout << "float";
+      		file << "float";
    		else if(type == "double")
-      		cout << "double";
+      		file << "double";
 			
 			if(param_array[i] == "true")
-				cout << "*";
-			cout << endl;
+				file << "*";
+			file << endl;
 			
 			total_num = total_num + 1;
 		}
@@ -475,66 +497,116 @@ void Llvm::Block(string input)
 		//StmtList
 		StmtList(inputStack.top());
 		//}
-		cout << inputStack.top() <<endl;
+		file << inputStack.top() <<endl;
 		inputStack.pop("");
-		total_num = 0;
+		total_num = 1;
 	}
 }
 void Llvm::StmtList(string input)
 {
+	string num = "";
 	//stmt歸零
+	first = 0;
    stmt_num = 0;
 	bin_num = 0;
+	memcpy(stmt_scope,empty,sizeof(empty));
    memcpy(stmt_type,empty,sizeof(empty));
    memcpy(stmt_symbol,empty,sizeof(empty));
    memcpy(stmt_array,empty,sizeof(empty));
+	memcpy(stmt_function,empty,sizeof(empty));
 	memcpy(binop,empty,sizeof(empty));
 
 	//Stmt
 	Stmt(inputStack.top());
 	//處理Stmt
+	string first_scope = stmt_scope[0];
 	string first_type = stmt_type[0];
 	string first_symbol = stmt_symbol[0];
 	string first_array = stmt_array[0];
+	string first_function = stmt_function[0];
 	
-//	if(bin_num == 0)
-//	{
-		for(int i = 1 ; i < stmt_num ; i++)
-      {
-			//cout << stmt_symbol[i] << " " ;
-         stringstream change;
-         string num;
-         change << total_num;
-         change >> num;
-			change.clear();
+	if(first_function == "true" && stmt_num > 0)
+	{
+		file << "%" << total_num << " = call " << type_change(first_type) << " @" << first_symbol << "()"<<endl;
+		total_num = total_num + 1;
+	}
+	if(first_array == "true" && bin_num == 0)
+	{
+     for(int i = 0 ; i < array_num ; i++)
+     {
+     		if(array_symbol[i] == first_symbol)
+         	num = array_len[i];
+     }
 
-			if(isalpha(stmt_symbol[i][0]) != 0)
+		file << "%" << total_num << " = getelementptr inbounds [" << num << " x " << type_change(first_type) << "]* %" << first_symbol << ", i32 0, i64 " << stmt_symbol[1] << endl;
+	}
+
+	for(int i = 1 ; i < stmt_num ; i++)
+   {
+			if(first_array == "true" && first == 0)
 			{
-				cout << "%" << num << " = load ";
+				i = 2;
+				first = 1;
+			}
+			string type = "";
+			if(stmt_array[i] == "true")
+			{
+				for(int j = 0 ; j < array_num ; j++)
+				{
+					if(array_symbol[j] == stmt_symbol[i])
+						num = array_len[j];
+				}
 
-         	string type = stmt_type[i];
+				file << "%" << total_num << " = getelementptr inbounds [" << num << " x " << type_change(stmt_type[i]) << "]* %" << stmt_symbol[i] << ", i32 0, i64 " << stmt_symbol[i+1] << endl;
+				total_num = total_num + 1;
+				file << "%" << total_num << " = load " << type_change(stmt_type[i]) <<"* %" << total_num-1 <<endl; 
+
+				total_num = total_num + 1;
+				if(bin_num == 0){
+					total_num = total_num - 1;
+					file << "store " << type_change(first_type) << " %" << total_num << ", " << type_change(first_type) << "* ";
+					if(first_scope == "0")
+						file << "@";
+					else
+						file << "%";
+ 					file << first_symbol << endl;	
+					total_num = total_num + 1;
+				}
+			}
+			else if(isalpha(stmt_symbol[i][0]) != 0)
+			{
+				file << "%" << total_num << " = load ";
 				
-				cout << type_change(type) << " %" << stmt_symbol[i] << endl;
-			
-				type_checking(first_type , type);
+         	type = stmt_type[i];
 				
-	         change << total_num;
-	         change >> num;
-   	      change.clear();
+				file << type_change(type) << "* "; //%" << stmt_symbol[i] << endl;
+				
+            if(stmt_scope[i] == "0")
+	            file << "@";
+            else
+               file << "%";
+				file << stmt_symbol[i] << endl;
+
+				if(bin_num == 0)
+				{	
+					type_checking(first_type , type , 0);
+				}
 
 				if(bin_num == 0)
 				{
-					cout << "store " << type_change(first_type) << " %" << num << ", " << type_change(first_type) << "* %" << first_symbol << endl;
+					if(stmt_array[i] == "true")
+					{
+		         	file << "store " << type_change(first_type) << " %" << total_num << ", " << type_change(first_type) << "* %" << total_num  << endl;
+					}
+					else
+					{
+						file << "store " << type_change(first_type) << " %" << total_num << ", " << type_change(first_type) << "* %" << first_symbol << endl;
+					}
 				}
-
-
 				total_num = total_num + 1;
 			}
 			else if(isdigit(stmt_symbol[i][0]) != 0)
 			{
-            change << total_num;
-            change >> num;
-            change.clear();
 				if(first_type == "int")
 				{
 					if(stmt_symbol[i].find(".")!=-1)
@@ -544,9 +616,94 @@ void Llvm::StmtList(string input)
 				}
 				if(bin_num ==0)
 				{
-            	cout << "store " << type_change(first_type) << " " << stmt_symbol[i] <<", " << type_change(first_type) << "* %" << first_symbol << endl;
+					if(first_array == "true")
+					{
+						file << "store " << type_change(first_type) << " " << stmt_symbol[i] <<", " << type_change(first_type) << "* %" << total_num << endl;
+						total_num = total_num + 1;
+					}
+					else
+					{	if(first_type == "double" && stmt_symbol[i].find(".") == -1)
+							stmt_symbol[i].append(".0");
+            		file << "store " << type_change(first_type) << " " << stmt_symbol[i] <<", " << type_change(first_type) << "* %" << first_symbol << endl;
+					}
 				}
 			}
+			if(first_array == "true" && bin_num !=0 && i == stmt_num-2)
+			{
+			   for(int j = 0 ; j < array_num ; j++)
+            {
+               if(array_symbol[j] == stmt_symbol[i])
+                  num = array_len[j];
+            }
+
+				file << "%" << total_num << "= add " << type_change(first_type) << " %" << total_num -3 << " , %" << total_num -1 <<endl;
+				total_num = total_num + 1;
+		      file << "%" << total_num << " = getelementptr inbounds [" << num << " x " << type_change(first_type) << "]* %" << first_symbol << ", i32 0, i64 " << stmt_symbol[1] << endl;
+            file << "store " << type_change(first_type) << " %" << total_num-1 <<", " << type_change(first_type) << "* %" << total_num << endl;
+				total_num = total_num + 1;
+			}
+
+
+			
+			if(i == 1)
+			{
+				temp_type = type;
+				temp_symbol = stmt_symbol[i];
+			}
+			else if((i > 1 && bin_num != 0) && first_array !="true" )
+			{
+				//type_checking(temp_type , type , 1);
+				file << "%" << total_num << " = ";
+/*
+				if(binop[i-2] == "+")
+					cout << "add " << type << " %" <<(total_num-2)<< " , %" <<(total_num-1)<<endl;
+				else if(binop[i-2] == "-")
+               cout << "sub " << type << " %" <<(total_num-2)<< " , %" <<(total_num-1)<<endl;
+            else if(binop[i-2] == "*")
+               cout << "mul " << type << " %" <<(total_num-2)<< " , %" <<(total_num-1)<<endl;
+            else if(binop[i-2] == "/")
+               cout << "div " << type << " %" <<(total_num-2)<< " , %" <<(total_num-1)<<endl;
+*/
+				if(binop[i-2] == "+" || binop[i-2] == "-" || binop[i-2] == "*" || binop[i-2] == "/")
+         	{
+			   	if(binop[i-2] == "+")
+               	file << "add " ;
+            	else if(binop[i-2] == "-")
+               	file << "sub " ;
+            	else if(binop[i-2] == "*")
+               	file << "mul " ;
+            	else if(binop[i-2] == "/")
+               	file << "div " ;
+				
+					if(isdigit(temp_symbol[0]) != 0)
+						file << type_change(type) << " " << temp_symbol;
+					else
+					{
+						if(isdigit(stmt_symbol[i][0]) != 0)
+							file << type_change(type) << " %" <<(total_num-1);
+						else
+                     file << type_change(type) << " %" <<(total_num-2);
+					}
+					if(isdigit(stmt_symbol[i][0]) !=0 )
+						file << ", " << stmt_symbol[i] <<endl;
+					else
+						file << " , %" <<(total_num-1)<<endl;
+				}
+	
+				//total_num = total_num + 1;
+				temp_type = type;
+				temp_symbol = stmt_symbol[i];
+			}
+		
+			if(i-1 == bin_num && bin_num != 0 && first_array != "true")
+			{
+				type_checking(first_type , type , 0);
+				file << "store " << type_change(first_type) << " %" << total_num << " , " << type_change(stmt_type[0]) << "* %" << stmt_symbol[0] << endl;
+				total_num = total_num + 1;
+			}
+
+			if(stmt_array[i] == "true")
+				i = i + 1;
       }
 	//}			
 
@@ -563,6 +720,11 @@ void Llvm::StmtList_(string input)
 
 void Llvm::Stmt(string input)
 {
+   string scope_str;
+   stringstream change;
+   change << scope;
+   change >> scope_str;
+
 	if(input == ";"){	
 		//;
 		inputStack.pop("");
@@ -575,7 +737,7 @@ void Llvm::Stmt(string input)
 	}
 	else if(input == "return"){	
 		//return
-		cout << "ret ";
+		file << "ret i32 0" << endl;
 		inputStack.pop("");
 		//Expr
 		Expr(inputStack.top());
@@ -614,10 +776,37 @@ void Llvm::Stmt(string input)
       Stmt(inputStack.top());
 	}
 	else if(input == "print")
-	{
-		cout << "print" ;
+	{	//print
 		inputStack.pop("");
-		cout << inputStack.top();
+		//id
+		string id = inputStack.top();
+      int find_pos;
+
+      for(int i = 0 ; i <line_count ;i++)
+      {
+	      if(id == symbol_save[i] && (scope_str == scope_save[i] || scope_save[i] == "0"))
+         {
+            find_pos = i;
+         }
+      }
+	
+		file << "%" << total_num << " = load " << type_change(type_save[find_pos]) << "* ";//%" << symbol_save[find_pos] << endl;
+		if(scope_save[find_pos] == "0")
+      	file << "@";
+      else
+         file << "%";
+      
+      file << symbol_save[find_pos] << endl;
+
+		total_num = total_num + 1;
+		file << "%" << total_num << " = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([3 x i8]* " ;
+		if(type_save[find_pos] == "int")
+			file << "@.str " ;
+		else if(type_save[find_pos] == "float" || type_save[find_pos] == "double")
+			file << "@.str1 ";
+		file << ", i32 0, i32 0), ";
+		file << type_change(type_save[find_pos]) << " %" << total_num-1 << ")" <<endl;
+		total_num = total_num + 1;
 		inputStack.pop("");
 		//;
 		inputStack.pop("");
@@ -659,19 +848,23 @@ void Llvm::Expr(string input)
 			inputStack.pop("");
 
 			//處理id
-		   int find_pos;
+		   int find_pos = 0  ;
 
 		   for(int i = 0 ; i <line_count ;i++)
   			{
-     			if(input == symbol_save[i] && scope_str == scope_save[i])
+     			if((input == symbol_save[i] && (scope_str == scope_save[i]|| scope_str == "0"))|| (input == symbol_save[i]&& function_save[i] == "true"))
      			{
+					//cout << input << endl;
          		find_pos = i;
       		}
    		}
+			//cout << input << endl;
 
+			stmt_scope[stmt_num] = scope_save[find_pos];
 			stmt_symbol[stmt_num] = symbol_save[find_pos];
 			stmt_type[stmt_num] = type_save[find_pos];
 			stmt_array[stmt_num] = array_save[find_pos];
+			stmt_function[stmt_num] = function_save[find_pos];
 
 			stmt_num = stmt_num + 1;
 
@@ -687,7 +880,11 @@ void Llvm::Expr(string input)
          stmt_symbol[stmt_num] = num;
 			if(input.find(".") == -1)
          	stmt_type[stmt_num] = "int";
-			else stmt_type[stmt_num] = "double";
+			else 
+			{
+				stmt_type[stmt_num] = "double";
+				//stmt_symbol[stmt_num].append(".0");
+			}
          stmt_array[stmt_num] = "false";
 
          stmt_num = stmt_num + 1;
@@ -735,7 +932,7 @@ void Llvm::ExprArrayTail(string input)
 
 void Llvm::Expr_(string input)
 {
-	if(input == ";" || input == ")" || input == "]"){;}
+	if(input == ";" || input == ")" || input == "]" || input == ","){;}
 	else{
 		BinOp(inputStack.top());
 		Expr(inputStack.top());
@@ -759,7 +956,7 @@ void Llvm::ExprListTail_(string input)
 {
 	if(input == ","){
 		//,
-		cout << " , " ; 
+		file << " , " ; 
       inputStack.pop("");
 		ExprListTail(inputStack.top());
 	}
@@ -768,7 +965,7 @@ void Llvm::ExprListTail_(string input)
 
 void Llvm::UnaryOp(string input)
 {
-	cout << input ;
+	file << input ;
 	inputStack.pop("");
 }
 		
@@ -815,39 +1012,44 @@ string Llvm::type_change(string type)
 	if(type == "int")
    	new_type = "i32";
    else if(type == "char")
-   	new_type = "i8 ";
+   	new_type = "i8";
    else if(type == "float")
-      new_type = "float ";
+      new_type = "float";
    else if(type == "double")
-      new_type = "double ";
+      new_type = "double";
 
 	return new_type;
 }
 
-void Llvm::type_checking(string first_type , string type)
+void Llvm::type_checking(string temp_type , string type , int assign)
 {
-	if(first_type != type)
-	{
-		stringstream change;
-		string previous_num;
-		string num;
-		change << total_num;
-		change >> previous_num;
-		change.clear();
-
-		total_num = total_num + 1;
+	if(temp_type != type)
+	{	
+		if(assign == 0){
+			if(temp_type == "int" && (type == "double" || type == "float"))
+			{
+				file <<  "%" << total_num << " = fptosi " << type_change(type) << " %" << total_num-1 << " to " << type_change(temp_type) << endl;
+				total_num = total_num + 1;
+			}
+			else if((temp_type == "double" || temp_type == "float") && type == "int")
+			{
+	      	file <<  "%" << total_num << " = sitofp " << type_change(type) << " %" << total_num-1 << " to " << type_change(temp_type) << endl;
+				total_num = total_num  + 1;
+			}
+		}
+		else if(assign == 1){
+         if(temp_type == "int" && (type == "double" || type == "float"))
+         {
+            file <<  "%" << total_num << " = sitofp " << type_change(temp_type) << " %" << total_num-2 << " to " << type_change(type) << endl;
+         	total_num = total_num + 1;
+			}
+         else if((temp_type == "double" || temp_type == "float") && type == "int")
+         {
+            file <<  "%" << total_num << " = sitofp " << type_change(type) << " %" << total_num-1 << " to " << type_change(temp_type) << endl;
+         	total_num = total_num + 1;
+			}
+		}
 	
-		change << total_num;
-		change>>num;
-		
-		if(first_type == "int" && (type == "double" || type == "float"))
-		{
-			cout <<  "%" << num << " = fptosi" << type_change(type) << " %" << previous_num << " to " << type_change(first_type) << endl;
-		}
-		else if((first_type == "double" || first_type == "float") && type == "int")
-		{
-	      cout <<  "%" << num << " = sitofp" << type_change(type) << " %" << previous_num << " to " << type_change(first_type) << endl;
-		}
 	}
 }
 
