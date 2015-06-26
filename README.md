@@ -32,13 +32,11 @@
 ##File
 
 > main.cpp
-
 ```
 	Contorl total class(symbol, check, llvm).
 ```
 
 > symbol.cpp
-
 ```
 	class Symbol:
 
@@ -63,7 +61,7 @@
 		Type checking.
 ```
 
->llvm.cpp
+> llvm.cpp
 ```
 	class Llvm:
 		
