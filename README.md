@@ -36,6 +36,7 @@
 	Contorl total class(symbol, check, llvm).
 ```
 
+
 > symbol.cpp
 ```
 	class Symbol:
@@ -53,6 +54,7 @@
 		Final, scope the table and write in output file.
 ```
 
+
 > check.cpp
 ```
 	class Check:
@@ -60,6 +62,7 @@
 		Store scope, level, symbol, type, array, function about file.
 		Type checking.
 ```
+
 
 > llvm.cpp
 ```
@@ -73,4 +76,3 @@
 		
 		Build stack to save input.
 ```
-
