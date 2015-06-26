@@ -32,12 +32,13 @@
 ##File
 
 > main.cpp
+
 ```
 	Contorl total class(symbol, check, llvm).
 ```
 
-
 > symbol.cpp
+
 ```
 	class Symbol:
 
@@ -54,8 +55,8 @@
 		Final, scope the table and write in output file.
 ```
 
-
 > check.cpp
+
 ```
 	class Check:
 		
@@ -63,8 +64,8 @@
 		Type checking.
 ```
 
-
 > llvm.cpp
+
 ```
 	class Llvm:
 		
